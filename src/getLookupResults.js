@@ -24,8 +24,10 @@ const lookupEntity = async (entity, options) => {
   const Logger = getLogger();
   const { type, types, value } = entity;
 
-  // Determine the entity subtype
-  const isCve = type === 'cve';
+  // Determine the entity subtype.
+  // Polarity may set entity.type to "custom" when a value matches multiple custom type regexes.
+  // In that case, the specific types are in entity.types[]. Check both to correctly detect CVEs.
+  const isCve = type === 'cve' || (Array.isArray(types) && types.includes('cve'));
   const isAid = !isCve && Array.isArray(types) && types.includes('custom.crowdstrikeAid');
   const isHostname = !isCve && !isAid && Array.isArray(types) && types.includes('custom.hostname');
 
