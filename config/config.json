@@ -1,0 +1,109 @@
+{
+  "polarityIntegrationUuid": "3766dcff-ab4e-4849-bbf8-610a9c8bf0f9",
+  "name": "CrowdStrike Exposure Management",
+  "acronym": "CSEM",
+  "description": "Query CrowdStrike Spotlight (Exposure Management) to identify which hosts are exposed to a given CVE and which vulnerabilities affect a given asset.",
+  "entityTypes": ["cve"],
+  "customTypes": [
+    {
+      "key": "hostname",
+      "regex": "\\b[a-zA-Z_0-9\\-]{4,64}\\b"
+    },
+    {
+      "key": "crowdstrikeAid",
+      "regex": "\\b[a-f0-9]{32}\\b"
+    }
+  ],
+  "defaultColor": "light-purple",
+  "styles": ["./styles/styles.less"],
+  "onDemandOnly": false,
+  "block": {
+    "component": {
+      "file": "./components/block.js"
+    },
+    "template": {
+      "file": "./templates/block.hbs"
+    }
+  },
+  "request": {
+    "cert": "",
+    "key": "",
+    "passphrase": "",
+    "ca": "",
+    "proxy": "",
+    "rejectUnauthorized": true
+  },
+  "logging": {
+    "level": "info"
+  },
+  "options": [
+    {
+      "key": "url",
+      "name": "CrowdStrike API URL",
+      "description": "The base URL for the CrowdStrike API. Defaults to https://api.crowdstrike.com. Do not include a trailing slash.",
+      "default": "https://api.crowdstrike.com",
+      "type": "text",
+      "userCanEdit": false,
+      "adminOnly": true
+    },
+    {
+      "key": "id",
+      "name": "Client ID",
+      "description": "The OAuth2 Client ID for your CrowdStrike API credentials. Requires the vulnerabilities:read and hosts:read scopes.",
+      "default": "",
+      "type": "text",
+      "userCanEdit": false,
+      "adminOnly": true
+    },
+    {
+      "key": "secret",
+      "name": "Client Secret",
+      "description": "The OAuth2 Client Secret associated with the Client ID.",
+      "default": "",
+      "type": "password",
+      "userCanEdit": false,
+      "adminOnly": true
+    },
+    {
+      "key": "uiUrl",
+      "name": "CrowdStrike UI URL",
+      "description": "The base URL for the CrowdStrike Falcon UI, used to generate deep-links. Defaults to https://falcon.crowdstrike.com.",
+      "default": "https://falcon.crowdstrike.com",
+      "type": "text",
+      "userCanEdit": false,
+      "adminOnly": true
+    },
+    {
+      "key": "maxResults",
+      "name": "Max Results Per Lookup",
+      "description": "The maximum number of vulnerability records to return per entity lookup. Defaults to 20.",
+      "default": 20,
+      "type": "number",
+      "userCanEdit": false,
+      "adminOnly": true
+    },
+    {
+      "key": "enablePatches",
+      "name": "Enable Installed Patch Data",
+      "description": "When checked, the integration will also fetch installed patch data for hostname and AID lookups. Requires the spotlight-patch:read scope.",
+      "default": false,
+      "type": "boolean",
+      "userCanEdit": false,
+      "adminOnly": true
+    },
+    {
+      "key": "enableEvalLogic",
+      "name": "Enable Evaluation Logic",
+      "description": "When checked, evaluation logic detail is included in the facet query and displayed in a collapsible section.",
+      "default": false,
+      "type": "boolean",
+      "userCanEdit": false,
+      "adminOnly": true
+    }
+  ],
+  "reducer": {
+    "details": {
+      "file": "./reducers/details.json"
+    }
+  }
+}

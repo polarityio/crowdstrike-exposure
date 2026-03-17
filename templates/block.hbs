@@ -1,0 +1,407 @@
+{{! CrowdStrike Exposure Management — block.hbs }}
+<div class="csem-container">
+
+  {{#if hasVulns}}
+
+    {{! ── CVE LOOKUP: CVE metadata at top, affected hosts in collapsible ── }}
+    {{#if isCveLookup}}
+
+      {{! CVE identity + ratings }}
+      <div>
+        <span class="p-key">CVE:</span>
+        <span class="p-value">{{firstVuln.cveId}}</span>
+      </div>
+      <div>
+        <span class="p-key">ExPRT Rating:</span>
+        <span class="p-value">
+          <span class="csem-severity-pill csem-severity-{{firstVuln.exprtRating}}">{{firstVuln.exprtRating}}</span>
+        </span>
+      </div>
+      <div>
+        <span class="p-key">CVSS Severity:</span>
+        <span class="p-value">
+          <span class="csem-severity-pill csem-severity-{{firstVuln.severity}}">{{firstVuln.severity}}</span>
+        </span>
+      </div>
+      <div>
+        <span class="p-key">CVSS Score:</span>
+        <span class="p-value {{severityClass}}">{{firstVuln.baseScore}}</span>
+      </div>
+      <div>
+        <span class="p-key">CISA KEV:</span>
+        <span class="p-value">
+          <span class="csem-kev-pill {{kevClass}}">{{kevLabel}}</span>
+        </span>
+      </div>
+      <div>
+        <span class="p-key">Published:</span>
+        <span class="p-value">{{firstVuln.publishedDate}}</span>
+      </div>
+      <div>
+        <span class="p-key">Hosts Exposed:</span>
+        <span class="p-value csem-count-highlight">{{details.totalVulns}}</span>
+      </div>
+
+      {{#if hasCwes}}
+        <div>
+          <span class="p-key">CWEs:</span>
+          <span class="p-value csem-pill-value">
+            {{#each firstVuln.cwes as |cwe|}}
+              <span class="pill-tag">{{cwe}}</span>
+            {{/each}}
+          </span>
+        </div>
+      {{/if}}
+
+      {{#if firstVuln.cveVector}}
+        <div>
+          <span class="p-key">CVSS Vector:</span>
+          <span class="p-value csem-mono">{{firstVuln.cveVector}}</span>
+        </div>
+      {{/if}}
+
+      {{#if firstVuln.cveDescription}}
+        <div>
+          <span class="p-key">Description:</span>
+          <span class="p-value csem-description">{{firstVuln.cveDescription}}</span>
+        </div>
+      {{/if}}
+
+      {{#if deepLinkCve}}
+        <div class="csem-deeplink-row">
+          <a class="p-link csem-deeplink" href="{{deepLinkCve}}">
+            View in Falcon {{fa-icon "external-link-alt" fixedWidth=true}}
+          </a>
+        </div>
+      {{/if}}
+
+      {{! ── Affected Hosts (collapsible) ── }}
+      <div class="csem-section-toggle" {{action "toggleSection" "Hosts"}}>
+        <span class="p-title">
+          {{fa-icon "desktop" fixedWidth=true}}
+          Affected Hosts
+          <span class="csem-badge">{{details.totalVulns}}</span>
+        </span>
+        <span class="csem-chevron">
+          {{#if block._state.showHosts}}
+            {{fa-icon "chevron-up"}}
+          {{else}}
+            {{fa-icon "chevron-down"}}
+          {{/if}}
+        </span>
+      </div>
+      {{#if block._state.showHosts}}
+        <div class="csem-section-body">
+          {{#each details.vulns as |vuln|}}
+            <div class="csem-host-entry">
+              <div>
+                <span class="p-key">Hostname:</span>
+                <span class="p-value csem-hostname">{{vuln.hostname}}</span>
+              </div>
+              <div>
+                <span class="p-key">Status:</span>
+                <span class="p-value">
+                  <span class="csem-status-pill csem-status-{{vuln.status}}">{{vuln.status}}</span>
+                </span>
+              </div>
+              <div>
+                <span class="p-key">OS:</span>
+                <span class="p-value">{{vuln.osVersion}}</span>
+              </div>
+              <div>
+                <span class="p-key">Local IP:</span>
+                <span class="p-value"><span class="pill-tag">{{vuln.localIp}}</span></span>
+              </div>
+              {{#if vuln.serviceProvider}}
+                <div>
+                  <span class="p-key">Cloud:</span>
+                  <span class="p-value">{{vuln.serviceProvider}}</span>
+                </div>
+              {{/if}}
+              <div>
+                <span class="p-key">Criticality:</span>
+                <span class="p-value">{{vuln.assetCriticality}}</span>
+              </div>
+              <div>
+                <span class="p-key">Internet Exposed:</span>
+                <span class="p-value">{{vuln.internetExposure}}</span>
+              </div>
+              {{#if vuln.deepLinks.host}}
+                <div>
+                  <a class="p-link csem-deeplink" href="{{vuln.deepLinks.host}}">
+                    View Host in Falcon {{fa-icon "external-link-alt" fixedWidth=true}}
+                  </a>
+                </div>
+              {{/if}}
+            </div>
+          {{/each}}
+        </div>
+      {{/if}}
+
+    {{/if}}{{! end isCveLookup }}
+
+    {{! ── HOST / AID LOOKUP: host metadata at top, CVEs in collapsible ── }}
+    {{#if isHostLookup}}
+
+      {{#if firstVuln}}
+        <div>
+          <span class="p-key">Hostname:</span>
+          <span class="p-value csem-hostname">{{firstVuln.hostname}}</span>
+        </div>
+        <div>
+          <span class="p-key">OS:</span>
+          <span class="p-value">{{firstVuln.osVersion}}</span>
+        </div>
+        <div>
+          <span class="p-key">Local IP:</span>
+          <span class="p-value"><span class="pill-tag">{{firstVuln.localIp}}</span></span>
+        </div>
+        <div>
+          <span class="p-key">Platform:</span>
+          <span class="p-value">{{firstVuln.platform}}</span>
+        </div>
+        <div>
+          <span class="p-key">Criticality:</span>
+          <span class="p-value">{{firstVuln.assetCriticality}}</span>
+        </div>
+        <div>
+          <span class="p-key">Internet Exposed:</span>
+          <span class="p-value">{{firstVuln.internetExposure}}</span>
+        </div>
+        {{#if firstVuln.serviceProvider}}
+          <div>
+            <span class="p-key">Cloud:</span>
+            <span class="p-value">{{firstVuln.serviceProvider}}</span>
+          </div>
+        {{/if}}
+        {{#if hasGroups}}
+          <div>
+            <span class="p-key">Groups:</span>
+            <span class="p-value csem-pill-value">
+              {{#each firstVuln.groups as |grp|}}
+                <span class="pill-tag">{{grp}}</span>
+              {{/each}}
+            </span>
+          </div>
+        {{/if}}
+        <div>
+          <span class="p-key">Open CVEs:</span>
+          <span class="p-value csem-count-highlight">{{details.openVulns}}</span>
+        </div>
+        {{#if deepLinkHost}}
+          <div class="csem-deeplink-row">
+            <a class="p-link csem-deeplink" href="{{deepLinkHost}}">
+              View Host in Falcon {{fa-icon "external-link-alt" fixedWidth=true}}
+            </a>
+          </div>
+        {{/if}}
+      {{/if}}
+
+      {{! ── Vulnerabilities (collapsible) ── }}
+      <div class="csem-section-toggle" {{action "toggleSection" "Cves"}}>
+        <span class="p-title">
+          {{fa-icon "bug" fixedWidth=true}}
+          Vulnerabilities
+          <span class="csem-badge">{{details.totalVulns}}</span>
+        </span>
+        <span class="csem-chevron">
+          {{#if block._state.showCves}}
+            {{fa-icon "chevron-up"}}
+          {{else}}
+            {{fa-icon "chevron-down"}}
+          {{/if}}
+        </span>
+      </div>
+      {{#if block._state.showCves}}
+        <div class="csem-section-body">
+          {{#each details.vulns as |vuln|}}
+            <div class="csem-vuln-entry">
+              <div>
+                <span class="p-key">CVE:</span>
+                <span class="p-value">{{vuln.cveId}}</span>
+              </div>
+              <div>
+                <span class="p-key">ExPRT:</span>
+                <span class="p-value">
+                  <span class="csem-severity-pill csem-severity-{{vuln.exprtRating}}">{{vuln.exprtRating}}</span>
+                </span>
+              </div>
+              <div>
+                <span class="p-key">CVSS:</span>
+                <span class="p-value">{{vuln.baseScore}}</span>
+              </div>
+              <div>
+                <span class="p-key">Status:</span>
+                <span class="p-value">
+                  <span class="csem-status-pill csem-status-{{vuln.status}}">{{vuln.status}}</span>
+                </span>
+              </div>
+              {{#if vuln.deepLinks.cve}}
+                <div>
+                  <a class="p-link csem-deeplink" href="{{vuln.deepLinks.cve}}">
+                    View in Falcon {{fa-icon "external-link-alt" fixedWidth=true}}
+                  </a>
+                </div>
+              {{/if}}
+            </div>
+          {{/each}}
+        </div>
+      {{/if}}
+
+    {{/if}}{{! end isHostLookup }}
+
+    {{! ── Remediation (collapsible, all lookup types) ── }}
+    {{#if hasRemediations}}
+      <div class="csem-section-toggle" {{action "toggleSection" "Remediation"}}>
+        <span class="p-title">
+          {{fa-icon "tools" fixedWidth=true}}
+          Remediation
+          <span class="csem-badge">{{firstVuln.remediations.length}}</span>
+        </span>
+        <span class="csem-chevron">
+          {{#if block._state.showRemediation}}
+            {{fa-icon "chevron-up"}}
+          {{else}}
+            {{fa-icon "chevron-down"}}
+          {{/if}}
+        </span>
+      </div>
+      {{#if block._state.showRemediation}}
+        <div class="csem-section-body">
+          {{#each firstVuln.remediations as |rem|}}
+            <div class="csem-rem-entry">
+              <div>
+                <span class="p-key">Patch:</span>
+                <span class="p-value">{{rem.title}}</span>
+              </div>
+              {{#if rem.reference}}
+                <div>
+                  <span class="p-key">Reference:</span>
+                  <span class="p-value"><span class="pill-tag">{{rem.reference}}</span></span>
+                </div>
+              {{/if}}
+              {{#if rem.patchDate}}
+                <div>
+                  <span class="p-key">Patch Date:</span>
+                  <span class="p-value">{{rem.patchDate}}</span>
+                </div>
+              {{/if}}
+              {{#if rem.action}}
+                <div>
+                  <span class="p-key">Action:</span>
+                  <span class="p-value csem-description">{{rem.action}}</span>
+                </div>
+              {{/if}}
+              {{#if rem.link}}
+                <div>
+                  <a class="p-link csem-deeplink" href="{{rem.link}}">
+                    View KB Article {{fa-icon "external-link-alt" fixedWidth=true}}
+                  </a>
+                </div>
+              {{/if}}
+            </div>
+          {{/each}}
+        </div>
+      {{/if}}
+    {{/if}}
+
+    {{! ── Evaluation Logic (collapsible, only when enableEvalLogic is on) ── }}
+    {{#if details.enableEvalLogic}}
+      {{#if hasEvalLogic}}
+        <div class="csem-section-toggle" {{action "toggleSection" "EvalLogic"}}>
+          <span class="p-title">
+            {{fa-icon "microscope" fixedWidth=true}}
+            Evaluation Logic
+            <span class="csem-badge">{{firstVuln.evaluationLogic.length}}</span>
+          </span>
+          <span class="csem-chevron">
+            {{#if block._state.showEvalLogic}}
+              {{fa-icon "chevron-up"}}
+            {{else}}
+              {{fa-icon "chevron-down"}}
+            {{/if}}
+          </span>
+        </div>
+        {{#if block._state.showEvalLogic}}
+          <div class="csem-section-body">
+            {{#each firstVuln.evaluationLogic as |logic|}}
+              <div class="csem-logic-entry">
+                <div>
+                  <span class="p-key">Check:</span>
+                  <span class="p-value">{{logic.title}}</span>
+                </div>
+                {{#if logic.checks}}
+                  <div>
+                    <span class="p-key">Condition:</span>
+                    <span class="p-value csem-mono">{{logic.checks}}</span>
+                  </div>
+                {{/if}}
+                {{#if logic.found.length}}
+                  <div>
+                    <span class="p-key">Found:</span>
+                    <span class="p-value csem-mono">{{logic.found}}</span>
+                  </div>
+                {{/if}}
+              </div>
+            {{/each}}
+          </div>
+        {{/if}}
+      {{/if}}
+    {{/if}}
+
+    {{! ── Installed Patches (collapsible, only when enablePatches is on) ── }}
+    {{#if details.enablePatches}}
+      {{#if hasPatches}}
+        <div class="csem-section-toggle" {{action "toggleSection" "Patches"}}>
+          <span class="p-title">
+            {{fa-icon "shield-alt" fixedWidth=true}}
+            Installed Patches
+          </span>
+          <span class="csem-chevron">
+            {{#if block._state.showPatches}}
+              {{fa-icon "chevron-up"}}
+            {{else}}
+              {{fa-icon "chevron-down"}}
+            {{/if}}
+          </span>
+        </div>
+        {{#if block._state.showPatches}}
+          <div class="csem-section-body">
+            {{#each details.patches as |patchGroup|}}
+              <div class="csem-patch-meta">
+                <div>
+                  <span class="p-key">Active Patches:</span>
+                  <span class="p-value">{{patchGroup.activePatchCount}}</span>
+                </div>
+                <div>
+                  <span class="p-key">Pending:</span>
+                  <span class="p-value">{{patchGroup.pendingPatchCount}}</span>
+                </div>
+                <div>
+                  <span class="p-key">Reboot Required:</span>
+                  <span class="p-value">{{patchGroup.rebootRequired}}</span>
+                </div>
+              </div>
+              {{#each patchGroup.patches as |patch|}}
+                <div class="csem-patch-entry">
+                  <div>
+                    <span class="p-key">Description:</span>
+                    <span class="p-value">{{patch.description}}</span>
+                  </div>
+                  <div>
+                    <span class="p-key">Published:</span>
+                    <span class="p-value">{{patch.publishedDate}}</span>
+                  </div>
+                </div>
+              {{/each}}
+            {{/each}}
+          </div>
+        {{/if}}
+      {{/if}}
+    {{/if}}
+
+  {{else}}
+    <div class="csem-no-results">No exposure data found for this indicator.</div>
+  {{/if}}
+
+</div>

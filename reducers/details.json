@@ -1,0 +1,25 @@
+{
+  "root": {
+    "path": "",
+    "on_null": "return_empty"
+  },
+  "pipeline": [
+    { "op": "copy", "from": "vulns[].cveId",            "to": "reduced_results.cve_ids" },
+    { "op": "copy", "from": "vulns[].severity",         "to": "reduced_results.severities" },
+    { "op": "copy", "from": "vulns[].baseScore",        "to": "reduced_results.cvss_scores" },
+    { "op": "copy", "from": "vulns[].exprtRating",      "to": "reduced_results.exprt_ratings" },
+    { "op": "copy", "from": "vulns[].isCisaKev",        "to": "reduced_results.cisa_kev_flags" },
+    { "op": "copy", "from": "vulns[].status",           "to": "reduced_results.statuses" },
+    { "op": "copy", "from": "vulns[].hostname",         "to": "reduced_results.hostnames" },
+    { "op": "copy", "from": "vulns[].osVersion",        "to": "reduced_results.os_versions" },
+    { "op": "copy", "from": "vulns[].assetCriticality", "to": "reduced_results.asset_criticalities" },
+    { "op": "copy", "from": "vulns[].internetExposure", "to": "reduced_results.internet_exposure" },
+    { "op": "copy", "from": "totalVulns",               "to": "reduced_results.total_vulns" },
+    { "op": "copy", "from": "openVulns",                "to": "reduced_results.open_vulns" },
+    { "op": "copy", "from": "entityType",               "to": "reduced_results.entity_type" },
+    { "op": "prune", "strategy": "empty_values",        "target": "reduced_results" }
+  ],
+  "output": {
+    "result": "$working.reduced_results"
+  }
+}

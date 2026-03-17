@@ -1,0 +1,245 @@
+/*
+ * Copyright (c) 2024, Polarity.io, Inc.
+ * CrowdStrike Exposure Management — Styles
+ */
+
+.csem-container {
+  font-size: 12px;
+  line-height: 1.6;
+
+  // Standard row spacing
+  > div,
+  .csem-section-body > div,
+  .csem-host-entry > div,
+  .csem-vuln-entry > div,
+  .csem-rem-entry > div,
+  .csem-logic-entry > div,
+  .csem-patch-entry > div,
+  .csem-patch-meta > div {
+    margin-bottom: 2px;
+  }
+
+  // ── Severity pill ─────────────────────────────────────────────────────
+  .csem-severity-pill {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 16px;
+    vertical-align: middle;
+  }
+
+  .csem-severity-critical,
+  .csem-severity-pill.csem-severity-critical {
+    color: #ff4d4f;
+    font-weight: 600;
+  }
+  .csem-severity-high,
+  .csem-severity-pill.csem-severity-high {
+    color: #ff7a00;
+    font-weight: 600;
+  }
+  .csem-severity-medium,
+  .csem-severity-pill.csem-severity-medium {
+    color: #faad14;
+    font-weight: 600;
+  }
+  .csem-severity-low,
+  .csem-severity-pill.csem-severity-low {
+    color: #52c41a;
+  }
+  .csem-severity-unknown {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  // When used as pill background on the severity badge
+  .csem-severity-pill.csem-severity-critical {
+    background-color: rgba(255, 77, 79, 0.12);
+    border: 1px solid rgba(255, 77, 79, 0.35);
+  }
+  .csem-severity-pill.csem-severity-high {
+    background-color: rgba(255, 122, 0, 0.12);
+    border: 1px solid rgba(255, 122, 0, 0.35);
+  }
+  .csem-severity-pill.csem-severity-medium {
+    background-color: rgba(250, 173, 20, 0.12);
+    border: 1px solid rgba(250, 173, 20, 0.35);
+  }
+  .csem-severity-pill.csem-severity-low {
+    background-color: rgba(82, 196, 26, 0.12);
+    border: 1px solid rgba(82, 196, 26, 0.35);
+  }
+
+  // ── Status pill ────────────────────────────────────────────────────────
+  .csem-status-pill {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 16px;
+    vertical-align: middle;
+  }
+
+  .csem-status-open {
+    background-color: rgba(255, 77, 79, 0.12);
+    color: #ff4d4f;
+    border: 1px solid rgba(255, 77, 79, 0.35);
+  }
+  .csem-status-closed,
+  .csem-status-reactivated {
+    background-color: rgba(82, 196, 26, 0.12);
+    color: #52c41a;
+    border: 1px solid rgba(82, 196, 26, 0.35);
+  }
+
+  // ── CISA KEV pill ─────────────────────────────────────────────────────
+  .csem-kev-pill {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 16px;
+    vertical-align: middle;
+  }
+
+  .csem-kev-yes {
+    background-color: rgba(255, 77, 79, 0.12);
+    color: #ff4d4f;
+    border: 1px solid rgba(255, 77, 79, 0.35);
+  }
+  .csem-kev-no {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  // ── Highlighted counts ────────────────────────────────────────────────
+  .csem-count-highlight {
+    color: #40a9ff;
+    font-weight: 600;
+  }
+
+  // ── Hostname display ──────────────────────────────────────────────────
+  .csem-hostname {
+    font-family: monospace;
+    color: #e6e6e6;
+  }
+
+  // ── Monospace display (CVSS vectors, eval logic conditions) ──────────
+  .csem-mono {
+    font-family: monospace;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.75);
+    word-break: break-all;
+  }
+
+  // ── Description text ──────────────────────────────────────────────────
+  .csem-description {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.5;
+  }
+
+  // ── Deep link row ─────────────────────────────────────────────────────
+  .csem-deeplink-row {
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+
+  .csem-deeplink {
+    font-size: 11px;
+    color: #40a9ff;
+    text-decoration: none;
+
+    .fa-icon { margin-left: 3px; }
+
+    &:hover { text-decoration: underline; }
+  }
+
+  // ── Collapsible section toggle ────────────────────────────────────────
+  .csem-section-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 5px 0 4px;
+    margin-top: 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    user-select: none;
+
+    &:hover { opacity: 0.8; }
+
+    .p-title {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      margin: 0;
+    }
+
+    .csem-chevron {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.35);
+    }
+  }
+
+  // ── Section count badge ───────────────────────────────────────────────
+  .csem-badge {
+    font-size: 10px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 8px;
+    padding: 0 5px;
+  }
+
+  // ── Section body ──────────────────────────────────────────────────────
+  .csem-section-body {
+    padding: 4px 0 6px 0;
+  }
+
+  // ── Entry cards (host / vuln / patch / remediation) ───────────────────
+  .csem-host-entry,
+  .csem-vuln-entry,
+  .csem-rem-entry,
+  .csem-logic-entry,
+  .csem-patch-entry {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 5px 0 3px;
+
+    &:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+  }
+
+  .csem-patch-meta {
+    margin-bottom: 4px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  // ── Inline-flex pill row ──────────────────────────────────────────────
+  .csem-pill-value {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    vertical-align: middle;
+  }
+
+  // ── No results ────────────────────────────────────────────────────────
+  .csem-no-results {
+    color: rgba(255, 255, 255, 0.45);
+    font-style: italic;
+    padding: 4px 0;
+  }
+}
