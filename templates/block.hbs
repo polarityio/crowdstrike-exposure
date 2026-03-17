@@ -6,6 +6,14 @@
     {{! ── CVE LOOKUP: CVE metadata at top, affected hosts in collapsible ── }}
     {{#if isCveLookup}}
 
+      {{#if deepLinkCve}}
+        <div class="csem-deeplink-row">
+          <a class="p-link csem-deeplink" href="{{deepLinkCve}}">
+            {{fa-icon "external-link-alt" fixedWidth=true}} View in Falcon
+          </a>
+        </div>
+      {{/if}}
+
       {{! CVE identity + ratings }}
       <div>
         <span class="p-key">CVE:</span>
@@ -67,13 +75,6 @@
         </div>
       {{/if}}
 
-      {{#if deepLinkCve}}
-        <div class="csem-deeplink-row">
-          <a class="p-link csem-deeplink" href="{{deepLinkCve}}">
-            View in Falcon {{fa-icon "external-link-alt" fixedWidth=true}}
-          </a>
-        </div>
-      {{/if}}
 
       {{! ── Affected Hosts (collapsible) ── }}
       <div class="csem-section-toggle" {{action "toggleSection" "Hosts"}}>
@@ -144,6 +145,14 @@
     {{#if isHostLookup}}
 
       {{#if firstVuln}}
+        {{#if deepLinkHost}}
+          <div class="csem-deeplink-row">
+            <a class="p-link csem-deeplink" href="{{deepLinkHost}}">
+              {{fa-icon "external-link-alt" fixedWidth=true}} View Host in Falcon
+            </a>
+          </div>
+        {{/if}}
+
         <div>
           <span class="p-key">Hostname:</span>
           <span class="p-value csem-hostname">{{firstVuln.hostname}}</span>
@@ -188,13 +197,6 @@
           <span class="p-key">Open CVEs:</span>
           <span class="p-value csem-count-highlight">{{details.openVulns}}</span>
         </div>
-        {{#if deepLinkHost}}
-          <div class="csem-deeplink-row">
-            <a class="p-link csem-deeplink" href="{{deepLinkHost}}">
-              View Host in Falcon {{fa-icon "external-link-alt" fixedWidth=true}}
-            </a>
-          </div>
-        {{/if}}
       {{/if}}
 
       {{! ── Vulnerabilities (collapsible) ── }}

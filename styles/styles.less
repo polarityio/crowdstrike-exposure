@@ -1,7 +1,252 @@
 /*
  * Copyright (c) 2024, Polarity.io, Inc.
  * CrowdStrike Exposure Management — Styles
+ * Colors use neutral grays (#888–#aaa) to remain readable on both
+ * dark and light Polarity themes. White-based rgba() values are avoided.
  */
+
+.csem-container {
+  font-size: 12px;
+  line-height: 1.6;
+
+  // Standard row spacing
+  > div,
+  .csem-section-body > div,
+  .csem-host-entry > div,
+  .csem-vuln-entry > div,
+  .csem-rem-entry > div,
+  .csem-logic-entry > div,
+  .csem-patch-entry > div,
+  .csem-patch-meta > div {
+    margin-bottom: 2px;
+  }
+
+  // ── Severity pill ─────────────────────────────────────────────────────
+  .csem-severity-pill {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 16px;
+    vertical-align: middle;
+  }
+
+  .csem-severity-critical,
+  .csem-severity-pill.csem-severity-critical {
+    color: #ff4d4f;
+    font-weight: 600;
+  }
+  .csem-severity-high,
+  .csem-severity-pill.csem-severity-high {
+    color: #ff7a00;
+    font-weight: 600;
+  }
+  .csem-severity-medium,
+  .csem-severity-pill.csem-severity-medium {
+    color: #d48806;
+    font-weight: 600;
+  }
+  .csem-severity-low,
+  .csem-severity-pill.csem-severity-low {
+    color: #389e0d;
+  }
+  .csem-severity-unknown {
+    color: #999;
+  }
+
+  // Pill backgrounds
+  .csem-severity-pill.csem-severity-critical {
+    background-color: rgba(255, 77, 79, 0.12);
+    border: 1px solid rgba(255, 77, 79, 0.35);
+  }
+  .csem-severity-pill.csem-severity-high {
+    background-color: rgba(255, 122, 0, 0.12);
+    border: 1px solid rgba(255, 122, 0, 0.35);
+  }
+  .csem-severity-pill.csem-severity-medium {
+    background-color: rgba(212, 136, 6, 0.12);
+    border: 1px solid rgba(212, 136, 6, 0.35);
+  }
+  .csem-severity-pill.csem-severity-low {
+    background-color: rgba(56, 158, 13, 0.12);
+    border: 1px solid rgba(56, 158, 13, 0.35);
+  }
+
+  // ── Status pill ────────────────────────────────────────────────────────
+  .csem-status-pill {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 16px;
+    vertical-align: middle;
+  }
+
+  .csem-status-open {
+    background-color: rgba(255, 77, 79, 0.12);
+    color: #ff4d4f;
+    border: 1px solid rgba(255, 77, 79, 0.35);
+  }
+  .csem-status-closed,
+  .csem-status-reactivated {
+    background-color: rgba(56, 158, 13, 0.12);
+    color: #389e0d;
+    border: 1px solid rgba(56, 158, 13, 0.35);
+  }
+
+  // ── CISA KEV pill ─────────────────────────────────────────────────────
+  .csem-kev-pill {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 16px;
+    vertical-align: middle;
+  }
+
+  .csem-kev-yes {
+    background-color: rgba(255, 77, 79, 0.12);
+    color: #ff4d4f;
+    border: 1px solid rgba(255, 77, 79, 0.35);
+  }
+  .csem-kev-no {
+    background-color: rgba(128, 128, 128, 0.08);
+    color: #999;
+    border: 1px solid rgba(128, 128, 128, 0.2);
+  }
+
+  // ── Highlighted counts ────────────────────────────────────────────────
+  .csem-count-highlight {
+    color: #1890ff;
+    font-weight: 600;
+  }
+
+  // ── Hostname display ──────────────────────────────────────────────────
+  .csem-hostname {
+    font-family: monospace;
+  }
+
+  // ── Monospace display (CVSS vectors, eval logic conditions) ──────────
+  .csem-mono {
+    font-family: monospace;
+    font-size: 10px;
+    color: #888;
+    word-break: break-all;
+  }
+
+  // ── Description text ──────────────────────────────────────────────────
+  .csem-description {
+    font-size: 11px;
+    color: #888;
+    line-height: 1.5;
+  }
+
+  // ── Deep link row ─────────────────────────────────────────────────────
+  .csem-deeplink-row {
+    margin-bottom: 6px;
+  }
+
+  .csem-deeplink {
+    font-size: 11px;
+    font-weight: 600;
+    color: #1890ff;
+    text-decoration: none;
+
+    .fa-icon { margin-right: 4px; }
+
+    &:hover { text-decoration: underline; }
+  }
+
+  // ── Collapsible section toggle ────────────────────────────────────────
+  .csem-section-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 5px 0 4px;
+    margin-top: 6px;
+    border-top: 1px solid rgba(128, 128, 128, 0.2);
+    user-select: none;
+
+    &:hover { opacity: 0.75; }
+
+    .p-title {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      margin: 0;
+    }
+
+    // Chevron arrow — neutral gray, always visible on dark and light themes
+    .csem-chevron {
+      font-size: 11px;
+      color: #aaa;
+      flex-shrink: 0;
+    }
+  }
+
+  // ── Section count badge ───────────────────────────────────────────────
+  .csem-badge {
+    font-size: 10px;
+    font-weight: 600;
+    color: #999;
+    background: rgba(128, 128, 128, 0.12);
+    border-radius: 8px;
+    padding: 0 5px;
+  }
+
+  // ── Section body ──────────────────────────────────────────────────────
+  .csem-section-body {
+    padding: 4px 0 6px 0;
+  }
+
+  // ── Entry cards (host / vuln / patch / remediation) ───────────────────
+  .csem-host-entry,
+  .csem-vuln-entry,
+  .csem-rem-entry,
+  .csem-logic-entry,
+  .csem-patch-entry {
+    border-top: 1px solid rgba(128, 128, 128, 0.15);
+    padding: 5px 0 3px;
+
+    &:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+  }
+
+  .csem-patch-meta {
+    margin-bottom: 4px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+  }
+
+  // ── Inline-flex pill row ──────────────────────────────────────────────
+  .csem-pill-value {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    vertical-align: middle;
+  }
+
+  // ── No results ────────────────────────────────────────────────────────
+  .csem-no-results {
+    color: #888;
+    font-style: italic;
+    padding: 4px 0;
+  }
+}
+
 
 .csem-container {
   font-size: 12px;
