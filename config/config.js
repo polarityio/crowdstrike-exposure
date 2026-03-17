@@ -9,10 +9,6 @@ module.exports = {
   entityTypes: ['cve'],
   customTypes: [
     {
-      key: 'hostname',
-      regex: '\\b[a-zA-Z_0-9\\-]{4,64}\\b'
-    },
-    {
       key: 'crowdstrikeAid',
       regex: '\\b[a-f0-9]{32}\\b'
     }
